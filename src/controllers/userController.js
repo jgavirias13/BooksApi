@@ -7,7 +7,7 @@ class UserController{
 
   get = async (req, res) => {
     const userId = req.params.userId;
-    const user = await userService.get(userId);
+    const user = await this.userService.get(userId);
 
     return res.send(user);
   }
@@ -22,14 +22,14 @@ class UserController{
   update = async (req, res) => {
     const body = req.body;
     const userId = req.params.userId;
-    const updateUser = userService.update(userId, body);
+    const updateUser = this.userService.update(userId, body);
     
     return res.send(updateUser);
   }
 
   delete = async (req, res) => {
     const userId = req.params.userId;
-    const deletedUser = userService.delete(userId);
+    const deletedUser = this.userService.delete(userId);
 
     return res.send(deletedUser);
   }

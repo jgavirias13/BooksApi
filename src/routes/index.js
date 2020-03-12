@@ -18,7 +18,7 @@ module.exports = ({
   apiRoutes.use(cors());
 
   if (Config.ENV == 'develop') {
-    apiRoutes.use(morgan('combined'));
+    apiRoutes.use(morgan('dev'));
   }
 
   //Configuracion de rutas
