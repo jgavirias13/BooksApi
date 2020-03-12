@@ -1,17 +1,15 @@
 const jwt = require('jsonwebtoken');
-const config = require('../config/config');
-const NotAuthorizedException = require('../helpers/notAuthorizedException');
 
-function authMiddleware(){
+function authMiddleware({Config, NotAuthorizedException}){
     return function(req, res, next){
         const token = req.headers["authorization"];
         if(!token){
-          throw new NotAuthorizedException();
+          throw NotAuthorizedException();
         }
       
-        jwt.verify(token, config.JWT_SECRET, (err, decodedToken) => {
+        jwt.verify(token, Config.JWT_SECRET, (err, decodedToken) => {
           if(err){
-            throw new NotAuthorizedException();
+            throw NotAuthorizedException();
           }
           req.user = decodedToken.user;
           next();

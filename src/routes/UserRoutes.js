@@ -1,11 +1,11 @@
 const express = require('express');
 
-module.exports = ({UserController}) => {
+module.exports = ({UserController, AuthMiddleware}) => {
   const router = express.Router();
-  router.get('/:userId', UserController.get);
-  router.get('/', UserController.getAll);
-  router.patch('/:userId', UserController.update);
-  router.delete('/:userId', UserController.delete);
+  router.get('/:userId', AuthMiddleware, UserController.get);
+  router.get('/', AuthMiddleware, UserController.getAll);
+  router.patch('/:userId', AuthMiddleware, UserController.update);
+  router.delete('/:userId', AuthMiddleware, UserController.delete);
 
   return router;
 }

@@ -24,6 +24,11 @@ UserSchema.methods.ToJSON = function(){
   return user;
 }
 
+UserSchema.methods.comparePassword = async function(password){
+  let result = await bcrypt.compare(password, this.password);
+  return result;
+};
+
 UserSchema.pre('save', async function(next){
   if(!this.isModified('password')){
     return next();

@@ -37,9 +37,9 @@ class AuthService{
       id: userExist._id
     };
 
-    const token = this.JwtHelper.generateToken(userToEncode);
+    const token = this.JwtHelper(userToEncode);
 
-    return {token, user: userExist};
+    return {token};
   }
 }
 

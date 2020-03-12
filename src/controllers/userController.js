@@ -2,7 +2,6 @@
 class UserController{
   constructor({UserService}){
     this.userService = UserService;
-    this.algo = 'hola'
   }
 
   get = async (req, res) => {
@@ -13,7 +12,6 @@ class UserController{
   }
 
   getAll = async (req, res) => {
-    console.log(this.algo)
     const users = await this.userService.getAll();
 
     return res.send(users);

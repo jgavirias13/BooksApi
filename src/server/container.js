@@ -14,6 +14,7 @@ const NotFoundException = require('../helpers/NotFoundException');
 const RequiredFieldException = require('../helpers/RequiredFieldException');
 const DuplicatedException = require('../helpers/DuplicatedException')
 const InvalidPasswordException = require('../helpers/InvalidPasswordException');
+const NotAuthorizedException = require('../helpers/notAuthorizedException');
 
 //Helpers
 const JwtHelper = require('../helpers/jwtHelper');
@@ -37,6 +38,7 @@ const AuthController = require('../controllers/authController');
 //Middlewares
 const ErrorMiddleware = require('../middlewares/errorMiddleware');
 const NotFoundMiddleware = require('../middlewares/notFoundMiddleware');
+const AuthMiddleware = require('../middlewares/authMiddleware');
 
 //Routes
 const IndexRoute = require('../routes/index');
@@ -67,7 +69,8 @@ container.register({
     NotFoundException: asFunction(NotFoundException).singleton(),
     RequiredFieldException: asFunction(RequiredFieldException).singleton(),
     DuplicatedException: asFunction(DuplicatedException).singleton(),
-    InvalidPasswordException: asFunction(InvalidPasswordException).singleton()
+    InvalidPasswordException: asFunction(InvalidPasswordException).singleton(),
+    NotAuthorizedException: asFunction(NotAuthorizedException).singleton()
 });
 
 //Services
@@ -86,7 +89,8 @@ container.register({
 //Middlewares
 container.register({
     ErrorMiddleware: asFunction(ErrorMiddleware).singleton(),
-    NotFoundMiddleware: asFunction(NotFoundMiddleware).singleton()
+    NotFoundMiddleware: asFunction(NotFoundMiddleware).singleton(),
+    AuthMiddleware: asFunction(AuthMiddleware).singleton()
 });
 
 //Routes
