@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
+const autoPopulate = require('mongoose-autopopulate');
 
 const UserSchema = new Schema({
   name: {
@@ -15,8 +16,15 @@ const UserSchema = new Schema({
   password:{
     type: String,
     required: true
-  }
+  },
+  favoritos: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Libro',
+    autopopulate: true
+  }]
 });
+
+UserSchema.plugin(autoPopulate);
 
 UserSchema.methods.ToJSON = function(){
   let user = this.toObject();

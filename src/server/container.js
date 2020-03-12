@@ -21,19 +21,23 @@ const JwtHelper = require('../helpers/jwtHelper');
 
 //Models
 const User = require('../models/user');
+const Libro = require('../models/libro');
 
 //Repositories
 const BaseRepository = require('../repositories/baseRepository');
 const UserRepository = require('../repositories/userRepository');
+const LibroRepository = require('../repositories/libroRepository');
 
 //Services
 const BaseService = require('../services/BaseService');
 const UserService = require('../services/UserService');
 const AuthService = require('../services/AuthService');
+const LibroService = require('../services/LibroService')
 
 //Controladores
 const UserController = require('../controllers/userController');
 const AuthController = require('../controllers/authController');
+const LibroController = require('../controllers/libroController');
 
 //Middlewares
 const ErrorMiddleware = require('../middlewares/errorMiddleware');
@@ -44,6 +48,7 @@ const AuthMiddleware = require('../middlewares/authMiddleware');
 const IndexRoute = require('../routes/index');
 const UserRoutes = require('../routes/UserRoutes');
 const AuthRoutes = require('../routes/AuthRoutes');
+const LibroRoutes = require('../routes/LibroRoutes');
 
 //Config
 container.register({
@@ -55,13 +60,15 @@ container.register({
 
 //models
 container.register({
-    UserModel: asValue(User)
+    UserModel: asValue(User),
+    LibroModel: asValue(Libro)
 });
 
 //Repositories
 container.register({
-    //BaseRepository: asClass(BaseRepository).singleton(),
-    UserRepository: asClass(UserRepository).singleton()
+    BaseRepository: asClass(BaseRepository).singleton(),
+    UserRepository: asClass(UserRepository).singleton(),
+    LibroRepository: asClass(LibroRepository).singleton()
 });
 
 //Errors
@@ -77,13 +84,15 @@ container.register({
 container.register({
     BaseService: asClass(BaseService).singleton(),
     UserService: asClass(UserService).singleton(),
-    AuthService: asClass(AuthService).singleton()
+    AuthService: asClass(AuthService).singleton(),
+    LibroService: asClass(LibroService).singleton()
 });
 
 //Controladores
 container.register({
     UserController: asClass(UserController).singleton(),
-    AuthController: asClass(AuthController).singleton()
+    AuthController: asClass(AuthController).singleton(),
+    LibroController: asClass(LibroController).singleton()
 });
 
 //Middlewares
@@ -97,7 +106,8 @@ container.register({
 container.register({
     IndexRoute: asFunction(IndexRoute).singleton(),
     UserRoutes: asFunction(UserRoutes).singleton(),
-    AuthRoutes: asFunction(AuthRoutes).singleton()
+    AuthRoutes: asFunction(AuthRoutes).singleton(),
+    LibroRoutes: asFunction(LibroRoutes).singleton()
 });
 
 //Helpers
