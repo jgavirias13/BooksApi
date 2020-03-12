@@ -12,6 +12,11 @@ const Logger = require('../util/logger');
 //Errors
 const NotFoundException = require('../helpers/NotFoundException');
 const RequiredFieldException = require('../helpers/RequiredFieldException');
+const DuplicatedException = require('../helpers/DuplicatedException')
+const InvalidPasswordException = require('../helpers/InvalidPasswordException');
+
+//Helpers
+const JwtHelper = require('../helpers/jwtHelper');
 
 //Models
 const User = require('../models/user');
@@ -57,7 +62,9 @@ container.register({
 //Errors
 container.register({
     NotFoundException: asFunction(NotFoundException).singleton(),
-    RequiredFieldException: asFunction(RequiredFieldException).singleton()
+    RequiredFieldException: asFunction(RequiredFieldException).singleton(),
+    DuplicatedException: asFunction(DuplicatedException).singleton(),
+    InvalidPasswordException: asFunction(InvalidPasswordException).singleton()
 });
 
 //Services
@@ -81,6 +88,11 @@ container.register({
 container.register({
     IndexRoute: asFunction(IndexRoute).singleton(),
     UserRoutes: asFunction(UserRoutes).singleton()
-})
+});
+
+//Helpers
+container.register({
+    JwtHelper: asFunction(JwtHelper).singleton()
+});
 
 module.exports = container;
