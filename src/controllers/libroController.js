@@ -40,7 +40,6 @@ class LibroController{
 
     addToFavorites = async (req, res) => {
       const libroId = req.params.libroId;
-      console.log(req.user);
       const userId = req.user;
 
       const updatedUser = await this.LibroService.addLibroToFavorites(libroId, userId);
