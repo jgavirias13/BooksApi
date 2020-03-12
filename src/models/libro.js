@@ -15,9 +15,9 @@ const LibroSchema = new Schema({
     imagen: {
         type: String
     },
-    categorias: {
+    categorias: [{
         type: String
-    }
+    }]
 });
 
 mongoose.model('Libro', LibroSchema);

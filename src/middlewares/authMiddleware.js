@@ -11,6 +11,7 @@ function authMiddleware({Config, NotAuthorizedException}){
           if(err){
             throw NotAuthorizedException();
           }
+          console.log(decodedToken);
           req.user = decodedToken.user;
           next();
         });

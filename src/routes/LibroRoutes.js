@@ -2,11 +2,12 @@ const express = require('express');
 
 module.exports = ({LibroController, AuthMiddleware}) => {
   const router = express.Router();
-  router.get('/:userId', AuthMiddleware, LibroController.get);
-  router.get('/', AuthMiddleware, LibroController.getAll);
+  router.get('/', LibroController.getAll);
   router.post('/', AuthMiddleware, LibroController.create);
-  router.patch('/:userId', AuthMiddleware, LibroController.update);
-  router.delete('/:userId', AuthMiddleware, LibroController.delete);
+  router.get('/:libroId', LibroController.get);
+  router.patch('/:libroId', AuthMiddleware, LibroController.update);
+  router.delete('/:libroId', AuthMiddleware, LibroController.delete);
+  router.post('/:libroId', AuthMiddleware, LibroController.addToFavorites);
 
   return router;
 }

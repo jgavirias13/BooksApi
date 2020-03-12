@@ -34,7 +34,7 @@ class AuthService{
 
     const userToEncode = {
       username: userExist.username,
-      id: userExist._id
+      user: userExist._id
     };
 
     const token = this.JwtHelper(userToEncode);

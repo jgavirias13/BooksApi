@@ -12,9 +12,8 @@ class LibroController{
     }
 
     create = async (req, res) => {
-        const body = req.params.body;
+        const body = req.body;
         const libro = await this.LibroService.create(body);
-
         return res.send(libro);
     }
   
@@ -37,6 +36,16 @@ class LibroController{
       const deletedLibro = this.LibroService.delete(libroId);
   
       return res.send(deletedLibro);
+    }
+
+    addToFavorites = async (req, res) => {
+      const libroId = req.params.libroId;
+      console.log(req.user);
+      const userId = req.user;
+
+      const updatedUser = await this.LibroService.addLibroToFavorites(libroId, userId);
+
+      return res.send(updatedUser);
     }
   }
   
