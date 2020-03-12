@@ -1,9 +1,10 @@
 const express = require('express');
 
 class Server{
-    constructor({Config}){
+    constructor({Config, IndexRoute}){
         this.config = Config;
         this.app = express();
+        this.app.use(IndexRoute);
     }
 
     start(callback){

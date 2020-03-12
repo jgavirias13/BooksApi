@@ -18,10 +18,22 @@ const User = require('../models/user');
 
 //Repositories
 const BaseRepository = require('../repositories/baseRepository');
+const UserRepository = require('../repositories/userRepository');
 
 //Services
 const BaseService = require('../services/BaseService');
 const UserService = require('../services/UserService');
+
+//Controladores
+const UserController = require('../controllers/userController');
+
+//Middlewares
+const ErrorMiddleware = require('../middlewares/errorMiddleware');
+const NotFoundMiddleware = require('../middlewares/notFoundMiddleware');
+
+//Routes
+const IndexRoute = require('../routes/index');
+const UserRoutes = require('../routes/UserRoutes');
 
 //Config
 container.register({
@@ -33,18 +45,19 @@ container.register({
 
 //models
 container.register({
-    User: asValue(User)
+    UserModel: asValue(User)
 });
 
 //Repositories
 container.register({
-    BaseRepository: asClass(BaseRepository).singleton()
+    //BaseRepository: asClass(BaseRepository).singleton(),
+    UserRepository: asClass(UserRepository).singleton()
 });
 
 //Errors
 container.register({
-    NotFoundException: asClass(NotFoundException).singleton(),
-    RequiredFieldException: asClass(RequiredFieldException).singleton()
+    NotFoundException: asFunction(NotFoundException).singleton(),
+    RequiredFieldException: asFunction(RequiredFieldException).singleton()
 });
 
 //Services
@@ -52,5 +65,22 @@ container.register({
     BaseService: asClass(BaseService).singleton(),
     UserService: asClass(UserService).singleton()
 });
+
+//Controladores
+container.register({
+    UserController: asClass(UserController).singleton()
+});
+
+//Middlewares
+container.register({
+    ErrorMiddleware: asFunction(ErrorMiddleware).singleton(),
+    NotFoundMiddleware: asFunction(NotFoundMiddleware).singleton()
+});
+
+//Routes
+container.register({
+    IndexRoute: asFunction(IndexRoute).singleton(),
+    UserRoutes: asFunction(UserRoutes).singleton()
+})
 
 module.exports = container;

@@ -1,9 +1,9 @@
-class NotFoundException extends Error{
-    constructor(tipoCampo){
-      const message = `${tipoCampo} no fue encontrado`;
-      super(message);
-      this.status = 404;
-    }
+function NotFoundException(){
+  return function(id){
+    const error = new Error(`Error, ${id} no fue encontrado`);
+    error.status = 404;
+    return error;
   }
-  
+}
+
 module.exports = NotFoundException;

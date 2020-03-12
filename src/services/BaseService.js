@@ -1,47 +1,47 @@
 class BaseService{
 
-  constructor({RequiredFieldException, NotFoundException}, repostitory){
-    this.repostitory = repostitory;
+  constructor({RequiredFieldException, NotFoundException}, repository){
+    this.repository = repository;
     this.RequiredFieldException = RequiredFieldException;
     this.NotFoundException = NotFoundException;
   }
 
   async get(id){
     if(!id){
-      throw new RequiredFieldException('id');
+      throw this.RequiredFieldException('id');
     }
 
-    const currentEntity = await this.repostitory.get(id);
+    const currentEntity = await this.repository.get(id);
 
     if(!currentEntity){
-      throw new NotFoundException('entidad');
+      throw this.NotFoundException(id);
     }
 
     return currentEntity;
   }
 
-  async getAll(pageSize, pageNum){
-    return this.repostitory.getAll(pageSize, pageNum);
+  async getAll(){
+    return this.repository.getAll();
   }
 
   async create(entity){
-    return this.repostitory.create(entity);
+    return this.repository.create(entity);
   }
 
   async update(id, entity){
     if(!id){
-      throw new RequiredFieldException('id');
+      throw this.RequiredFieldException('id');
     }
 
-    return await this.repostitory.update(id, entity);
+    return await this.repository.update(id, entity);
   }
 
   async delete(id){
     if(!id){
-      throw new RequiredFieldException('id');
+      throw this.RequiredFieldException('id');
     }
 
-    return await this.repostitory.delete(id);
+    return await this.repository.delete(id);
   }
 }
 

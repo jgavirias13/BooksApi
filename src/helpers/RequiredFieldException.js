@@ -1,9 +1,9 @@
-class RequiredFieldException extends Error{
-    constructor(tipoCampo){
-      const message = `El campo ${tipoCampo} es obligatorio`;
-      super(message);
-      this.status = 400;
-    }
+function RequiredFieldException(){
+  return function(campo){
+    const error = new Error(`No se ha enviado el campo ${campo} que es obligatorio`);
+    error.status = 404;
+    return error;
   }
-  
+}
+
 module.exports = RequiredFieldException;

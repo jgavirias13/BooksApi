@@ -3,15 +3,16 @@ const BaseService = require('./BaseService');
 class UserService extends BaseService{
   constructor({UserRepository, RequiredFieldException, NotFoundException}){
     super({RequiredFieldException, NotFoundException}, UserRepository);
-    this.userRepository = UserRepository;
+    this.UserRepository = UserRepository;
+    this.RequiredFieldException = RequiredFieldException;
   }
 
   async getUserByUsername(username){
     if(!username){
-      throw new this.RequiredFieldException('Username');
+      throw this.RequiredFieldException(username);
     }
 
-    return await this.userRepository.getUserByUsername(username);
+    return await this.UserRepository.getUserByUsername(username);
   }
 }
 
