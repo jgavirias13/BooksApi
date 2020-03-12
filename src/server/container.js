@@ -28,9 +28,11 @@ const UserRepository = require('../repositories/userRepository');
 //Services
 const BaseService = require('../services/BaseService');
 const UserService = require('../services/UserService');
+const AuthService = require('../services/AuthService');
 
 //Controladores
 const UserController = require('../controllers/userController');
+const AuthController = require('../controllers/authController');
 
 //Middlewares
 const ErrorMiddleware = require('../middlewares/errorMiddleware');
@@ -39,6 +41,7 @@ const NotFoundMiddleware = require('../middlewares/notFoundMiddleware');
 //Routes
 const IndexRoute = require('../routes/index');
 const UserRoutes = require('../routes/UserRoutes');
+const AuthRoutes = require('../routes/AuthRoutes');
 
 //Config
 container.register({
@@ -70,12 +73,14 @@ container.register({
 //Services
 container.register({
     BaseService: asClass(BaseService).singleton(),
-    UserService: asClass(UserService).singleton()
+    UserService: asClass(UserService).singleton(),
+    AuthService: asClass(AuthService).singleton()
 });
 
 //Controladores
 container.register({
-    UserController: asClass(UserController).singleton()
+    UserController: asClass(UserController).singleton(),
+    AuthController: asClass(AuthController).singleton()
 });
 
 //Middlewares
@@ -87,7 +92,8 @@ container.register({
 //Routes
 container.register({
     IndexRoute: asFunction(IndexRoute).singleton(),
-    UserRoutes: asFunction(UserRoutes).singleton()
+    UserRoutes: asFunction(UserRoutes).singleton(),
+    AuthRoutes: asFunction(AuthRoutes).singleton()
 });
 
 //Helpers

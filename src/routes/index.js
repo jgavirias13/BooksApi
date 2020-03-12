@@ -7,6 +7,7 @@ require('express-async-errors');
 
 module.exports = ({
   UserRoutes,
+  AuthRoutes,
   Config,
   NotFoundMiddleware,
   ErrorMiddleware
@@ -23,7 +24,7 @@ module.exports = ({
 
   //Configuracion de rutas
   apiRoutes.use('/user', UserRoutes);
-
+  apiRoutes.use('/auth', AuthRoutes);
   router.use('/v1/api', apiRoutes);
 
   //Middlewares
