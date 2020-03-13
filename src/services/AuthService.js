@@ -26,7 +26,7 @@ class AuthService{
       throw this.NotFoundException('User');
     }
 
-    const validPassword = userExist.comparePassword(password);
+    const validPassword = await userExist.comparePassword(password);
 
     if(!validPassword){
       throw this.InvalidPasswordException();
