@@ -281,7 +281,7 @@ components:
           example: jgaviria
         password:
           type: string
-          example: 12345
+          example: '12345'
     UserRegister:
       type: object
       properties:
@@ -293,7 +293,7 @@ components:
           example: jgaviria
         password:
           type: string
-          example: 12345
+          example: '12345'
     User:
       type: object
       properties:
@@ -343,7 +343,7 @@ components:
       required:
         - nombre
       properties:
-        name:
+        nombre:
           type: string
           example: 'Harry Potter'
         descripcion:
