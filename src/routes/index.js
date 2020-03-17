@@ -1,5 +1,4 @@
 const express = require('express');
-const morgan = require('morgan');
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
 const swaggerDocument = YAML.load(`${__dirname}/../../doc/apiDocumentation.yaml`);
@@ -23,6 +22,7 @@ module.exports = ({
   apiRoutes.use(cors());
 
   if (Config.ENV == 'develop') {
+    const morgan = require('morgan');
     apiRoutes.use(morgan('dev'));
   }
 

@@ -28,7 +28,11 @@ paths:
       operationId: signin
       responses:
         '200':
-          description: Autenticación exitosa
+          description: Autenticación exitosa. Se retorna el token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
         '404':
           description: Id de usuario no encontrado
         '401':
@@ -43,7 +47,11 @@ paths:
       operationId: signup
       responses:
         '201':
-          description: Registro exitoso
+          description: Registro exitoso. Se retorna el objeto de usuario creado sin el password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
         '401':
           description: El username ya existe
       requestBody:
@@ -55,10 +63,11 @@ paths:
       tags:
         - Usuarios
       summary: Obtener todos los usuarios
+      description: Se retornan todos los usuarios. No se reciben parametros ni es necesario enviar un body. Es necesario estar autenticado para hacer esta operación.
       operationId: getUsuarios
       responses:
         '200':
-          description: Operación exitosa
+          description: Operación exitosa. Se retorna un arreglo con todos los usuarios
           content:
             application/json:
               schema:
@@ -76,13 +85,13 @@ paths:
       parameters:
         - name: userId
           in: path
-          description: ID del usuario
+          description: ID del usuario. Es un campo obligatorio.
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: Operación exitosa
+          description: Operación exitosa. Se retorna un objeto con los detalles del usuario
           content:
             application/json:
               schema:
@@ -97,7 +106,7 @@ paths:
       parameters:
         - name: userId
           in: path
-          description: ID del usuario
+          description: ID del usuario. Es un campo obligatorio.
           required: true
           schema:
             type: string
@@ -105,7 +114,7 @@ paths:
         $ref: '#/components/requestBodies/UserRegister'
       responses:
         '200':
-          description: Operación exitosa
+          description: Operación exitosa. Se envía el usuario acutalizado
           content:
             application/json:
               schema:
@@ -120,7 +129,7 @@ paths:
       parameters:
         - name: userId
           in: path
-          description: ID del usuario
+          description: ID del usuario. Es un campo obligatorio.
           required: true
           schema:
             type: string
@@ -142,7 +151,7 @@ paths:
           name: search
           schema:
             type: string
-          description: Busqueda de palabra clave en titulo, autor o categoria
+          description: Busqueda de palabra clave en titulo, autor o categoria. Es un campo opcional
       responses:
         '200':
           description: Operación exitosa
@@ -158,6 +167,7 @@ paths:
       tags:
         - Books
       summary: Crear un libro
+      description: Se debe de envíar en el body del mensaje el libro que se desea crear. Las categorias y el autor del libro son strings libres
       operationId: createBook
       requestBody:
         $ref: '#/components/requestBodies/BookCreate'
@@ -177,7 +187,7 @@ paths:
       parameters:
         - name: libroId
           in: path
-          description: ID del libro
+          description: ID del libro. Este campo es obligatorio
           required: true
           schema:
             type: string
@@ -198,7 +208,7 @@ paths:
       parameters:
         - name: libroId
           in: path
-          description: ID del libro
+          description: ID del libro. Este campo es obligatorio
           required: true
           schema:
             type: string
@@ -221,7 +231,7 @@ paths:
       parameters:
         - name: libroId
           in: path
-          description: Id del libro
+          description: Id del libro. Este campo es obligatorio
           required: true
           schema:
             type: string
@@ -255,31 +265,45 @@ paths:
                 $ref: '#/components/schemas/User'
 components:
   schemas:
+    Token:
+      type: object
+      properties:
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpnYXZpcmlhIiwidXNlciI6IjVlNzAyYmIwMzlhZWZiNzdhNjZjNzI1MSIsImlhdCI6MTU4NDQxMzk2MywiZXhwIjoxNTg0NDI4MzYzfQ.iJlqh-G7BmTokpWf6yWnEipNE0pSP-HC9IpYW2JVq4E
     Login:
       type: object
       properties:
         username:
           type: string
+          example: jgaviria
         password:
           type: string
+          example: 12345
     UserRegister:
       type: object
       properties:
         name:
           type: string
+          example: Juan Pablo Gaviria
         username:
           type: string
+          example: jgaviria
         password:
           type: string
+          example: 12345
     User:
       type: object
       properties:
         id:
           type: string
+          example: 5e703e831180ad5a4a2985e1
         username:
           type: string
+          example: jgaviria
         name:
           type: string
+          example: Juan Pablo Gaviria
         favoritos:
           type: array
           description: Libros favoritos del usuario
@@ -292,21 +316,26 @@ components:
       properties:
         id:
           type: string
+          example: 5e703ad1d5231146431cef12
         nombre:
           type: string
           example: 'Harry Potter'
         descripcion:
           type: string
+          example: Colocar un resumen del libro
         autor:
           type: string
+          example: J. K. Rowling
         imagen:
           type: string
           description: Url con la ubicación de la imagen
+          example: https://salamandra.info/sites/default/files/styles/book_detail/public/books/covers/hp_y_la_piedra_filosofal.jpg?itok=GWUphIke
         categorias:
           type: array
           description: Categorias del libro (ficción, fantasía etc)
           items:
             type: string
+            example: Ficcion
     BookCreate:
       type: object
       required:
@@ -317,30 +346,34 @@ components:
           example: 'Harry Potter'
         descripcion:
           type: string
+          example: Colocar un resumen del libro
         autor:
           type: string
+          example: J. K. Rowling
         imagen:
           type: string
           description: Url con la ubicación de la imagen
+          example: https://salamandra.info/sites/default/files/styles/book_detail/public/books/covers/hp_y_la_piedra_filosofal.jpg?itok=GWUphIke
         categorias:
           type: array
           description: Categorias del libro (ficción, fantasía etc)
           items:
             type: string
+            example: Ficcion
   requestBodies:
     Login:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Login'
-      description: User login fields
+      description: Se debe enviar en el body los detalles de inicio de sesión
       required: true
     UserRegister:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/UserRegister'
-      description: Detalles de usuario
+      description: Se debe enviar en el body los campos del usuario
       required: true
     User:
       content:
@@ -348,15 +381,6 @@ components:
           schema:
             $ref: '#/components/schemas/User'
       description: Usuario a actualizar
-      required: true
-    UserArray:
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/User'
-      description: List of user object
       required: true
     BookCreate:
       content:
