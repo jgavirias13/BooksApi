@@ -12,6 +12,8 @@ servers:
 # Added by API Auto Mocking Plugin
   - description: Local environment
     url: http://localhost:3000/api/v1
+  - description: Heroku server
+    url: https://librosback.herokuapp.com/api/v1
 tags:
   - name: Autenticacion
     description: API para realizar el registro de usuarios o el login y obtener un token valido
