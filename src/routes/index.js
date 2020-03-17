@@ -19,7 +19,7 @@ module.exports = ({
   const apiRoutes = express.Router();
 
   apiRoutes.use(express.json());
-  apiRoutes.use(cors());
+  router.use(cors({origin: '*'}));
 
   if (Config.ENV == 'develop') {
     const morgan = require('morgan');
