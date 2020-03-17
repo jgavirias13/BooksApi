@@ -1,5 +1,8 @@
 const express = require('express');
 const morgan = require('morgan');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load(`${__dirname}/../../doc/apiDocumentation.yaml`);
 
 //Middlewares
 const cors = require('cors');
@@ -27,7 +30,8 @@ module.exports = ({
   apiRoutes.use('/user', UserRoutes);
   apiRoutes.use('/libro', LibroRoutes);
   apiRoutes.use('/auth', AuthRoutes);
-  router.use('/v1/api', apiRoutes);
+  router.use('/api/v1', apiRoutes);
+  router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
   //Middlewares
   router.use(NotFoundMiddleware);

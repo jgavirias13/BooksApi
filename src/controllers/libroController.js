@@ -18,7 +18,12 @@ class LibroController{
     }
   
     getAll = async (req, res) => {
-      const libros = await this.LibroService.getAll();
+      let libros;
+      if(req.query.search){
+        libros = await this.LibroService.searchLibros(req.query.search);
+      }else{
+        libros = await this.LibroService.getAll();
+      }
 
       return res.send(libros);
     }

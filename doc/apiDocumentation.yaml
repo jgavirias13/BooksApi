@@ -1,0 +1,375 @@
+openapi: 3.0.0
+info:
+  description: |
+    Books es un API que te permite ver libros y guardar tus favoritos.
+    Tiene funciones de autenticación y registro de usuarios y de ver
+    libros y agregarlos a favoritos
+  version: "1.0.0"
+  title: Books API
+  contact:
+    email: jgavirias13@gmail.com
+servers:
+# Added by API Auto Mocking Plugin
+  - description: Local environment
+    url: http://localhost:3000/api/v1
+tags:
+  - name: Autenticacion
+    description: API para realizar el registro de usuarios o el login y obtener un token valido
+  - name: Usuarios
+    description: API para gestionar los usuarios de la aplicación. En la gestión de usuarios no se encuentra la creación debido a que esta se debe realizar mediante el registro por el endpoint de autenticación.
+  - name: Books
+    description: API para consultar los libros de la aplicación, crear uno o agregar uno a favoritos
+paths:
+  /auth/signin:
+    post:
+      tags:
+        - Autenticacion
+      summary: Iniciar sesión y obtener un token
+      operationId: signin
+      responses:
+        '200':
+          description: Autenticación exitosa
+        '404':
+          description: Id de usuario no encontrado
+        '401':
+          description: Autenticación fallida
+      requestBody:
+        $ref: '#/components/requestBodies/Login'
+  /auth/signup:
+    post:
+      tags:
+        - Autenticacion
+      summary: Registrar un nuevo usuario
+      operationId: signup
+      responses:
+        '201':
+          description: Registro exitoso
+        '401':
+          description: El username ya existe
+      requestBody:
+        $ref: '#/components/requestBodies/UserRegister'
+  /user:
+    get:
+      security:
+        - auth: []
+      tags:
+        - Usuarios
+      summary: Obtener todos los usuarios
+      operationId: getUsuarios
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+  '/user/{userId}':
+    get:
+      security:
+        - auth: []
+      tags:
+        - Usuarios
+      summary: Obtener detalles de un usuario
+      operationId: getUsuario
+      parameters:
+        - name: userId
+          in: path
+          description: ID del usuario
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    patch:
+      security:
+        - auth: []
+      tags:
+        - Usuarios
+      summary: Actualizar detalles de un usuario
+      operationId: updateUsuario
+      parameters:
+        - name: userId
+          in: path
+          description: ID del usuario
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/UserRegister'
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      security:
+        - auth: []
+      tags:
+        - Usuarios
+      summary: Eliminar un usuario
+      operationId: deleteUsuario
+      parameters:
+        - name: userId
+          in: path
+          description: ID del usuario
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operación exitosa. Se retorna el objeto del usuario eliminado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /libro:
+    get:
+      tags:
+        - Books
+      summary: Obtener todos los libros
+      operationId: getBooks
+      parameters:
+        - in: query
+          name: search
+          schema:
+            type: string
+          description: Busqueda de palabra clave en titulo, autor o categoria
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+    post:
+      security:
+        - auth: []
+      tags:
+        - Books
+      summary: Crear un libro
+      operationId: createBook
+      requestBody:
+        $ref: '#/components/requestBodies/BookCreate'
+      responses:
+        '200':
+          description: Operación exitosa. Libro creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  '/libro/{libroId}':
+    get:
+      tags:
+        - Books
+      summary: Obtener un libro en especifico
+      operationId: getBook
+      parameters:
+        - name: libroId
+          in: path
+          description: ID del libro
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+    patch:
+      security:
+        - auth: []
+      tags:
+        - Books
+      summary: Actualizar un libro
+      operationId: updateBook
+      parameters:
+        - name: libroId
+          in: path
+          description: ID del libro
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/BookCreate'
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+    delete:
+      security:
+        - auth: []
+      tags:
+        - Books
+      summary: Eliminar un libro
+      operationId: deleteBook
+      parameters:
+        - name: libroId
+          in: path
+          description: Id del libro
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+    post:
+      security:
+        - auth: []
+      tags:
+        - Books
+      summary: Agregar libro a favoritos
+      description: Se toma el usuario del token enviado y se agrega ese libro a su lista de favoritos
+      parameters:
+        - name: libroId
+          in: path
+          description: Id del libro
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+components:
+  schemas:
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    UserRegister:
+      type: object
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        name:
+          type: string
+        favoritos:
+          type: array
+          description: Libros favoritos del usuario
+          items:
+            $ref: '#/components/schemas/Book'
+    Book:
+      type: object
+      required:
+        - nombre
+      properties:
+        id:
+          type: string
+        nombre:
+          type: string
+          example: 'Harry Potter'
+        descripcion:
+          type: string
+        autor:
+          type: string
+        imagen:
+          type: string
+          description: Url con la ubicación de la imagen
+        categorias:
+          type: array
+          description: Categorias del libro (ficción, fantasía etc)
+          items:
+            type: string
+    BookCreate:
+      type: object
+      required:
+        - nombre
+      properties:
+        name:
+          type: string
+          example: 'Harry Potter'
+        descripcion:
+          type: string
+        autor:
+          type: string
+        imagen:
+          type: string
+          description: Url con la ubicación de la imagen
+        categorias:
+          type: array
+          description: Categorias del libro (ficción, fantasía etc)
+          items:
+            type: string
+  requestBodies:
+    Login:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Login'
+      description: User login fields
+      required: true
+    UserRegister:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserRegister'
+      description: Detalles de usuario
+      required: true
+    User:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+      description: Usuario a actualizar
+      required: true
+    UserArray:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
+      description: List of user object
+      required: true
+    BookCreate:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BookCreate'
+      description: Libro a crear
+      required: true
+  securitySchemes:
+    auth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Ingresa tu token
+security:
+  - auth: []

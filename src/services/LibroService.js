@@ -22,6 +22,14 @@ class LibroService extends BaseService{
 
         return await this.UserService.addLibroToFavorites(libro, userId);
     }
+
+    async searchLibros(query){
+        if(query){
+            return await this.LibroRepository.findByQuery(query)
+        }else{
+            return [];
+        }
+    }
 }
 
 module.exports = LibroService;
