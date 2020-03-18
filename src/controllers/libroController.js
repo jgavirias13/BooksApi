@@ -31,14 +31,14 @@ class LibroController{
     update = async (req, res) => {
       const body = req.body;
       const libroId = req.params.libroId;
-      const updatedLibro = this.LibroService.update(libroId, body);
+      const updatedLibro = await this.LibroService.update(libroId, body);
       
       return res.send(updatedLibro);
     }
   
     delete = async (req, res) => {
       const libroId = req.params.libroId;
-      const deletedLibro = this.LibroService.delete(libroId);
+      const deletedLibro = await this.LibroService.delete(libroId);
   
       return res.send(deletedLibro);
     }

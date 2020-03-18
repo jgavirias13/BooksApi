@@ -21,11 +21,11 @@ class BaseService{
   }
 
   async getAll(){
-    return this.repository.getAll();
+    return await this.repository.getAll();
   }
 
   async create(entity){
-    return this.repository.create(entity);
+    return await this.repository.create(entity);
   }
 
   async update(id, entity){

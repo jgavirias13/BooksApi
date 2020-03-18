@@ -9,7 +9,7 @@ class Db{
     mongoose.connect(this.config.DB_URI,{
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useFindAndModify: true
+      useFindAndModify: false
     }, (err) => {callback(err)});
     mongoose.set('useCreateIndex', true);
   }
