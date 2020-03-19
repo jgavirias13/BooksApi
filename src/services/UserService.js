@@ -31,6 +31,19 @@ class UserService extends BaseService{
 
     return await this.UserRepository.update(userId, {favoritos: user.favoritos});
   }
+
+  async comprobarFavorito(libroId, userId){
+    const user = await super.get(userId);
+    if(!user){
+      return false;
+    }
+
+    if(user.favoritos.includes(libroId)){
+      return true
+    }
+    
+    return false;
+  }
 }
 
 module.exports = UserService;

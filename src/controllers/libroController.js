@@ -6,9 +6,11 @@ class LibroController{
   
     get = async (req, res) => {
       const libroId = req.params.libroId;
-      const user = await this.LibroService.get(libroId);
+      const userId = req.user;
+
+      const libro = await this.LibroService.get(libroId, userId);
   
-      return res.send(user);
+      return res.send(libro);
     }
 
     create = async (req, res) => {

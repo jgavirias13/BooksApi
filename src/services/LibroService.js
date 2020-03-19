@@ -30,6 +30,16 @@ class LibroService extends BaseService{
             return [];
         }
     }
+
+    async get(libroId, userId){
+        let libro = await super.get(libroId);
+        libro = libro.toObject();
+        if(userId){
+            libro.isFavorite = await this.UserService.comprobarFavorito(libroId, userId);
+            
+        }
+        return libro;
+    }
 }
 
 module.exports = LibroService;

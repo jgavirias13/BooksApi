@@ -43,6 +43,7 @@ const LibroController = require('../controllers/libroController');
 const ErrorMiddleware = require('../middlewares/errorMiddleware');
 const NotFoundMiddleware = require('../middlewares/notFoundMiddleware');
 const AuthMiddleware = require('../middlewares/authMiddleware');
+const TokenMiddleware = require('../middlewares/tokenMiddleware');
 
 //Routes
 const IndexRoute = require('../routes/index');
@@ -99,7 +100,8 @@ container.register({
 container.register({
     ErrorMiddleware: asFunction(ErrorMiddleware).singleton(),
     NotFoundMiddleware: asFunction(NotFoundMiddleware).singleton(),
-    AuthMiddleware: asFunction(AuthMiddleware).singleton()
+    AuthMiddleware: asFunction(AuthMiddleware).singleton(),
+    TokenMiddleware: asFunction(TokenMiddleware).singleton()
 });
 
 //Routes
