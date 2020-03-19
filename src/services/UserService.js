@@ -1,4 +1,5 @@
 const BaseService = require('./BaseService');
+const bcrypt = require('bcrypt');
 
 class UserService extends BaseService{
   constructor({UserRepository, RequiredFieldException, NotFoundException}){
@@ -59,6 +60,16 @@ class UserService extends BaseService{
     }
     
     return false;
+  }
+
+  async update(id, entity){
+    if(entity.password){
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(entity.password, salt);
+      entity.password = hashedPassword;
+    }
+
+    return await super.update(id, entity);
   }
 }
 

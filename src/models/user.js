@@ -26,7 +26,7 @@ const UserSchema = new Schema({
 
 UserSchema.plugin(autoPopulate);
 
-UserSchema.methods.ToJSON = function(){
+UserSchema.methods.toJSON = function(){
   let user = this.toObject();
   delete user.password;
   return user;
@@ -38,13 +38,15 @@ UserSchema.methods.comparePassword = async function(password){
 };
 
 UserSchema.pre('save', async function(next){
-  if(!this.isModified('password')){
+  const user = this;
+  
+  if(!user.isModified('password')){
     return next();
   }
 
   const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(this.password, salt);
-  this.password = hashedPassword;
+  const hashedPassword = await bcrypt.hash(user.password, salt);
+  user.password = hashedPassword;
 
   next();
 })
