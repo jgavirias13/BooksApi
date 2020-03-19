@@ -146,7 +146,8 @@ paths:
     get:
       tags:
         - Books
-      summary: Obtener todos los libros
+      summary: Obtener todos los libros.
+      description: Para este endpoint no es necesario estar autenticado
       operationId: getBooks
       parameters:
         - in: query
@@ -185,6 +186,7 @@ paths:
       tags:
         - Books
       summary: Obtener un libro en especifico
+      description: Para este endpoint no es necesario estar autenticado. Sin embargo, si se está autenticado, se devuelve una propiedad adicional en el objeto libro, la propiedad .isFavorite, que indica en true o false si el libro es favorito o no
       operationId: getBook
       parameters:
         - name: libroId
