@@ -43,7 +43,7 @@ class UserService extends BaseService{
       throw this.NotFoundException('User');
     }
 
-    user.favoritos = user.favoritos.filter(book => book._id != libro);
+    user.favoritos = user.favoritos.filter(book => !book._id.equals(libro._id));
 
     return await this.UserRepository.update(userId, {favoritos: user.favoritos});
   }

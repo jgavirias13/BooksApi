@@ -4,15 +4,15 @@ function authMiddleware({Config}){
     return function(req, res, next){
         const token = req.headers["authorization"];
         if(!token){
-          next()
+          return next();
         }
       
         jwt.verify(token, Config.JWT_SECRET, (err, decodedToken) => {
           if(err){
-            next();
+            return next();
           }
           req.user = decodedToken.user;
-          next();
+          return next();
         });
     }
 }
