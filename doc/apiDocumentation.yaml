@@ -246,6 +246,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Book'
+  '/libro/addfavorite/{libroId}':
     post:
       security:
         - auth: []
@@ -253,6 +254,28 @@ paths:
         - Books
       summary: Agregar libro a favoritos
       description: Se toma el usuario del token enviado y se agrega ese libro a su lista de favoritos
+      parameters:
+        - name: libroId
+          in: path
+          description: Id del libro
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  '/libro/rmfavorite/{libroId}':
+    post:
+      security:
+        - auth: []
+      tags:
+        - Books
+      summary: Eliminar libro de favoritos
+      description: Se toma el usuario del token enviado y se elimina ese libro de su lista de favoritos
       parameters:
         - name: libroId
           in: path

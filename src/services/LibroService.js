@@ -23,6 +23,20 @@ class LibroService extends BaseService{
         return await this.UserService.addLibroToFavorites(libro, userId);
     }
 
+    async removeFromFavorites(libroId, userId){
+        if(!libroId){
+            throw this.RequiredFieldException('libroId');
+        }
+
+        if(!userId){
+            throw this.RequiredFieldException('userId');
+        }
+
+        const libro = await this.LibroRepository.get(libroId);
+
+        return await this.UserService.removeFromFavorites(libro, userId);
+    }
+
     async searchLibros(query){
         if(query){
             return await this.LibroRepository.findByQuery(query)

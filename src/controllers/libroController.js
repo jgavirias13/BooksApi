@@ -53,6 +53,15 @@ class LibroController{
 
       return res.send(updatedUser);
     }
+
+    removeFromFavorites = async (req, res) => {
+      const libroId = req.params.libroId;
+      const userId = req.user;
+
+      const updatedUser = await this.LibroService.removeFromFavorites(libroId, userId);
+
+      return res.send(updatedUser);
+    }
   }
   
   module.exports = LibroController;

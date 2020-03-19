@@ -7,7 +7,8 @@ module.exports = ({LibroController, AuthMiddleware, TokenMiddleware}) => {
   router.get('/:libroId', TokenMiddleware, LibroController.get);
   router.patch('/:libroId', AuthMiddleware, LibroController.update);
   router.delete('/:libroId', AuthMiddleware, LibroController.delete);
-  router.post('/:libroId', AuthMiddleware, LibroController.addToFavorites);
+  router.post('/addfavorite/:libroId', AuthMiddleware, LibroController.addToFavorites);
+  router.post('/rmfavorite/:libroId', AuthMiddleware, LibroController.removeFromFavorites);
 
   return router;
 }
